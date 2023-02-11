@@ -96,7 +96,7 @@ def get_matrix_values(rows_count, columns_count):
             print("Некорректный формат ввода. Повторите еще раз:")
 
 
-def calculate_matrix(table):
+def calculate_matrix(table, rows_count, columns_count):
     return table
 
 
@@ -105,4 +105,4 @@ matrix_size = get_matrix_size()
 print(matrix_size)
 matrix = get_matrix_values(matrix_size[0], matrix_size[1])
 print(matrix)
-calculate_matrix(matrix)
+calculate_matrix(matrix, matrix_size[0], matrix_size[1])
