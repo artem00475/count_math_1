@@ -100,9 +100,16 @@ def calculate_matrix(table, rows_count, columns_count):
     return table
 
 
+def print_matrix(table):
+    for row in range(len(table)):
+        for x in table[row]:
+            print(x, end='   ')
+        print('\n')
+
+
 print("Решение системы методом Гаусса с выбором главного элемента по столбцам.")
 matrix_size = get_matrix_size()
 print(matrix_size)
 matrix = get_matrix_values(matrix_size[0], matrix_size[1])
-print(matrix)
+print_matrix(matrix)
 calculate_matrix(matrix, matrix_size[0], matrix_size[1])
