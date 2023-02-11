@@ -109,7 +109,7 @@ def print_matrix(table):
 
 print("Решение системы методом Гаусса с выбором главного элемента по столбцам.")
 matrix_size = get_matrix_size()
-print(matrix_size)
+print("Количество строк - ", matrix_size[0], ", количество столбцов - ", matrix_size[1], ".")
 matrix = get_matrix_values(matrix_size[0], matrix_size[1])
 print_matrix(matrix)
 calculate_matrix(matrix, matrix_size[0], matrix_size[1])
