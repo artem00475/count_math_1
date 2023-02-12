@@ -59,7 +59,7 @@ def get_matrix_values(size):
                         if len(elements_string) != size:
                             print("Неправильное количество элементов в строке", row + 1)
                             raise ArithmeticError
-                        table.append(list(map(int, elements_string)))
+                        table.append(list(map(float, elements_string)))
                     return table
                 except FileNotFoundError:
                     print("Файл не найден. Попробуйте еще раз.")
@@ -98,7 +98,22 @@ def print_matrix(table):
     for row in range(len(table)):
         for x in table[row]:
             print(x, end='   ')
-        print('\n')
+        print('')
+
+
+def calculate_det(table, size):
+    if size == 1:
+        return table[0]
+    elif size == 2:
+        return table[0][0] * table[1][1] - table[0][1] * table[1][0]
+    elif size > 2:
+        det = 0
+        for i in range(size):
+            table1 = []
+            for row in range(1, size):
+                table1.append(table[row][:i] + table[row][i + 1:])
+            det += (-1) ** (2 + i) * table[0][i] * calculate_det(table1, size - 1)
+        return det
 
 
 print("Решение системы методом Гаусса с выбором главного элемента по столбцам.")
@@ -106,4 +121,5 @@ matrix_size = get_matrix_size()
 print("Размерность матрицы - ", matrix_size, "x", matrix_size)
 matrix = get_matrix_values(matrix_size)
 print_matrix(matrix)
-calculate_matrix(matrix, matrix_size)
+# calculate_matrix(matrix, matrix_size)
+print("Определитель матрицы:", calculate_det(matrix, matrix_size))
