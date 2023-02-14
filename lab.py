@@ -90,8 +90,34 @@ def get_matrix_values(size):
             print("Некорректный формат ввода. Повторите еще раз:")
 
 
-def calculate_matrix(table, size):
+def matrix_to_triangle(table, size):
+    for column in range(size):
+        max_el = 0
+        max_row = column
+        for row in range(column, size):
+            if abs(table[row][column]) > max_el:
+                max_el = abs(table[row][column])
+                max_row = row
+        if max_row != column:
+            table1 = table[max_row]
+            table[max_row] = table[column]
+            table[column] = table1
+        for row in range(column + 1, size):
+            if table[row][column] != 0:
+                x = -(table[row][column] / table[column][column])
+                table1 = [y * x for y in table[column]]
+                for i in range(column, size):
+                    table[row][i] += table1[i]
+        print("Выбор главного элемента по", column + 1, "столбцу")
+        print_matrix(table)
     return table
+
+
+def calculate_matrix(table, size):
+    table = matrix_to_triangle(table, size)
+    x_table = [0 for i in range(size)]
+    for row in range(1, size+1):
+
 
 
 def print_matrix(table):
@@ -121,5 +147,6 @@ matrix_size = get_matrix_size()
 print("Размерность матрицы - ", matrix_size, "x", matrix_size)
 matrix = get_matrix_values(matrix_size)
 print_matrix(matrix)
-# calculate_matrix(matrix, matrix_size)
 print("Определитель матрицы:", calculate_det(matrix, matrix_size))
+calculate_matrix(matrix, matrix_size)
+
