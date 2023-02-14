@@ -56,7 +56,7 @@ def get_matrix_values(size):
                     table = []
                     for row in range(size):
                         elements_string = file.readline().split()
-                        if len(elements_string) != size:
+                        if len(elements_string) != size + 1:
                             print("Неправильное количество элементов в строке", row + 1)
                             raise ArithmeticError
                         table.append(list(map(float, elements_string)))
@@ -77,7 +77,7 @@ def get_matrix_values(size):
                         print("Введите элементы ", row + 1, " строки через пробел:")
                         try:
                             elements_string = input().split()
-                            if len(elements_string) != size:
+                            if len(elements_string) != size + 1:
                                 print("Неправильное количество элементов в строке")
                                 continue
                             table.append(list(map(float, elements_string)))
@@ -91,7 +91,7 @@ def get_matrix_values(size):
 
 
 def matrix_to_triangle(table, size):
-    for column in range(size):
+    for column in range(size - 1):
         max_el = 0
         max_row = column
         for row in range(column, size):
@@ -106,18 +106,38 @@ def matrix_to_triangle(table, size):
             if table[row][column] != 0:
                 x = -(table[row][column] / table[column][column])
                 table1 = [y * x for y in table[column]]
-                for i in range(column, size):
-                    table[row][i] += table1[i]
+                for i in range(column, size + 1):
+                    table[row][i] = round(table1[i] + table[row][i], 3)
+
         print("Выбор главного элемента по", column + 1, "столбцу")
         print_matrix(table)
     return table
 
 
-def calculate_matrix(table, size):
-    table = matrix_to_triangle(table, size)
-    x_table = [0 for i in range(size)]
-    for row in range(1, size+1):
+def calculate_infelocity(table, size, x_table):
+    r_table = []
+    for row in range(size):
+        sum_el = 0
+        for el_index in range(size):
+            sum_el += x_table[el_index] * table[row][el_index]
+        r_table.append(sum_el - table[row][-1])
+    print("Вектор неувязок:", r_table)
 
+
+def calculate_matrix(table, size):
+    table1 = table
+    table = matrix_to_triangle(table, size)
+    print("Треугольная матрица")
+    print_matrix(table)
+    x_table = [0 for i in range(size)]
+
+    for row in range(size - 1, 0, -1):
+        sum = table[row][-1]
+        for i in range(row + 1, size):
+            sum -= table[row][i] * x_table[i]
+        x_table[row] = sum / table[row][row]
+    print("Вектор неизвестных:", x_table)
+    calculate_infelocity(table1, size, x_table)
 
 
 def print_matrix(table):
@@ -146,7 +166,7 @@ print("Решение системы методом Гаусса с выборо
 matrix_size = get_matrix_size()
 print("Размерность матрицы - ", matrix_size, "x", matrix_size)
 matrix = get_matrix_values(matrix_size)
+print("Введенная матрица")
 print_matrix(matrix)
 print("Определитель матрицы:", calculate_det(matrix, matrix_size))
 calculate_matrix(matrix, matrix_size)
-
