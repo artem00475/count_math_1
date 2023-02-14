@@ -107,8 +107,7 @@ def matrix_to_triangle(table, size):
                 x = -(table[row][column] / table[column][column])
                 table1 = [y * x for y in table[column]]
                 for i in range(column, size + 1):
-                    table[row][i] = round(table1[i] + table[row][i], 3)
-
+                    table[row][i] = round(table1[i] + table[row][i], 5)
         print("Выбор главного элемента по", column + 1, "столбцу")
         print_matrix(table)
     return table
@@ -131,11 +130,13 @@ def calculate_matrix(table, size):
     print_matrix(table)
     x_table = [0 for i in range(size)]
 
-    for row in range(size - 1, 0, -1):
+    for row in range(size - 1, -1, -1):
         sum = table[row][-1]
         for i in range(row + 1, size):
             sum -= table[row][i] * x_table[i]
         x_table[row] = sum / table[row][row]
+        if abs(x_table[row]) == 0:
+            x_table[row] = abs(x_table[row])
     print("Вектор неизвестных:", x_table)
     calculate_infelocity(table1, size, x_table)
 
