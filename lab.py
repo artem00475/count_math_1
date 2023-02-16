@@ -89,7 +89,8 @@ def get_matrix_values(size):
         else:
             print("Некорректный формат ввода. Повторите еще раз:")
 
-#Приведение матрицы к треугольному виду с выбором главного элемента по столбцу
+
+# Приведение матрицы к треугольному виду с выбором главного элемента по столбцу
 def matrix_to_triangle(table, size):
     for column in range(size - 1):
         max_el = 0
@@ -113,7 +114,8 @@ def matrix_to_triangle(table, size):
         print()
     return table
 
-#Вычисление вектора неувязок
+
+# Вычисление вектора неувязок
 def calculate_hitch(table, size, x_table):
     r_table = []
     for row in range(size):
@@ -125,7 +127,8 @@ def calculate_hitch(table, size, x_table):
             r_table[row] = abs(r_table[row])
     print("Вектор неувязок:", r_table)
 
-#Решение СЛАУ
+
+# Решение СЛАУ
 def calculate_matrix(table, size):
     table1 = table.copy()
     table = matrix_to_triangle(table, size)
@@ -144,14 +147,16 @@ def calculate_matrix(table, size):
     print("Вектор неизвестных:", x_table)
     calculate_hitch(table1, size, x_table)
 
-#Вывод матрицы в консоль
+
+# Вывод матрицы в консоль
 def print_matrix(table):
     for row in range(len(table)):
         for x in table[row]:
             print('%.5f' % x, end='   ')
         print()
 
-#Вычисление определителя
+
+# Вычисление определителя
 def calculate_det_by_definition(table, size):
     if size == 1:
         return table[0]
@@ -173,5 +178,9 @@ print("Размерность матрицы - ", matrix_size, "x", matrix_size)
 matrix = get_matrix_values(matrix_size)
 print("\nВведенная матрица")
 print_matrix(matrix)
-print("\nОпределитель матрицы по определению:", calculate_det_by_definition(matrix, matrix_size), "\n")
-calculate_matrix(matrix, matrix_size)
+det = calculate_det_by_definition(matrix, matrix_size)
+print("\nОпределитель матрицы по определению:", det, "\n")
+if det == 0:
+    print("Система не имеет решений, т.к. определитель равен нулю.")
+else:
+    calculate_matrix(matrix, matrix_size)
