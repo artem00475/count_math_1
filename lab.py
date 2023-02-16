@@ -123,11 +123,19 @@ def calculate_infelocity(table, size, x_table):
     print("Вектор неувязок:", r_table)
 
 
+def calculate_det(table, size):
+    det = 1
+    for i in range(size):
+        det *= table[i][i]
+    return det
+
+
 def calculate_matrix(table, size):
-    table1 = table
+    table1 = table.copy()
     table = matrix_to_triangle(table, size)
     print("Треугольная матрица")
     print_matrix(table)
+    print("Определитель треугольной матрицы:", calculate_det(table, size))
     x_table = [0 for i in range(size)]
 
     for row in range(size - 1, -1, -1):
@@ -148,7 +156,7 @@ def print_matrix(table):
         print('')
 
 
-def calculate_det(table, size):
+def calculate_det_by_definition(table, size):
     if size == 1:
         return table[0]
     elif size == 2:
@@ -159,7 +167,7 @@ def calculate_det(table, size):
             table1 = []
             for row in range(1, size):
                 table1.append(table[row][:i] + table[row][i + 1:])
-            det += (-1) ** (2 + i) * table[0][i] * calculate_det(table1, size - 1)
+            det += (-1) ** (2 + i) * table[0][i] * calculate_det_by_definition(table1, size - 1)
         return det
 
 
@@ -169,5 +177,5 @@ print("Размерность матрицы - ", matrix_size, "x", matrix_size)
 matrix = get_matrix_values(matrix_size)
 print("Введенная матрица")
 print_matrix(matrix)
-print("Определитель матрицы:", calculate_det(matrix, matrix_size))
+print("Определитель матрицы по определению:", calculate_det_by_definition(matrix, matrix_size))
 calculate_matrix(matrix, matrix_size)
