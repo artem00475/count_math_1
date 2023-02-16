@@ -89,7 +89,7 @@ def get_matrix_values(size):
         else:
             print("Некорректный формат ввода. Повторите еще раз:")
 
-
+#Приведение матрицы к треугольному виду с выбором главного элемента по столбцу
 def matrix_to_triangle(table, size):
     for column in range(size - 1):
         max_el = 0
@@ -113,7 +113,7 @@ def matrix_to_triangle(table, size):
         print()
     return table
 
-
+#Вычисление вектора неувязок
 def calculate_hitch(table, size, x_table):
     r_table = []
     for row in range(size):
@@ -125,7 +125,7 @@ def calculate_hitch(table, size, x_table):
             r_table[row] = abs(r_table[row])
     print("Вектор неувязок:", r_table)
 
-
+#Решение СЛАУ
 def calculate_matrix(table, size):
     table1 = table.copy()
     table = matrix_to_triangle(table, size)
@@ -144,14 +144,14 @@ def calculate_matrix(table, size):
     print("Вектор неизвестных:", x_table)
     calculate_hitch(table1, size, x_table)
 
-
+#Вывод матрицы в консоль
 def print_matrix(table):
     for row in range(len(table)):
         for x in table[row]:
             print('%.5f' % x, end='   ')
         print()
 
-
+#Вычисление определителя
 def calculate_det_by_definition(table, size):
     if size == 1:
         return table[0]
