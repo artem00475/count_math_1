@@ -110,24 +110,20 @@ def matrix_to_triangle(table, size):
                     table[row][i] = round(table1[i] + table[row][i], 5)
         print("Выбор главного элемента по", column + 1, "столбцу")
         print_matrix(table)
+        print()
     return table
 
 
-def calculate_infelocity(table, size, x_table):
+def calculate_hitch(table, size, x_table):
     r_table = []
     for row in range(size):
         sum_el = 0
         for el_index in range(size):
             sum_el += x_table[el_index] * table[row][el_index]
-        r_table.append(sum_el - table[row][-1])
+        r_table.append(round(sum_el - table[row][-1], 5))
+        if abs(r_table[row]) == 0:
+            r_table[row] = abs(r_table[row])
     print("Вектор неувязок:", r_table)
-
-
-def calculate_det(table, size):
-    det = 1
-    for i in range(size):
-        det *= table[i][i]
-    return det
 
 
 def calculate_matrix(table, size):
@@ -135,25 +131,25 @@ def calculate_matrix(table, size):
     table = matrix_to_triangle(table, size)
     print("Треугольная матрица")
     print_matrix(table)
-    print("Определитель треугольной матрицы:", calculate_det(table, size))
+    print()
     x_table = [0 for i in range(size)]
 
     for row in range(size - 1, -1, -1):
         sum = table[row][-1]
         for i in range(row + 1, size):
             sum -= table[row][i] * x_table[i]
-        x_table[row] = sum / table[row][row]
+        x_table[row] = round(sum / table[row][row], 5)
         if abs(x_table[row]) == 0:
             x_table[row] = abs(x_table[row])
     print("Вектор неизвестных:", x_table)
-    calculate_infelocity(table1, size, x_table)
+    calculate_hitch(table1, size, x_table)
 
 
 def print_matrix(table):
     for row in range(len(table)):
         for x in table[row]:
-            print(x, end='   ')
-        print('')
+            print('%.5f' % x, end='   ')
+        print()
 
 
 def calculate_det_by_definition(table, size):
@@ -168,14 +164,14 @@ def calculate_det_by_definition(table, size):
             for row in range(1, size):
                 table1.append(table[row][:i] + table[row][i + 1:])
             det += (-1) ** (2 + i) * table[0][i] * calculate_det_by_definition(table1, size - 1)
-        return det
+        return round(det, 5)
 
 
 print("Решение системы методом Гаусса с выбором главного элемента по столбцам.")
 matrix_size = get_matrix_size()
 print("Размерность матрицы - ", matrix_size, "x", matrix_size)
 matrix = get_matrix_values(matrix_size)
-print("Введенная матрица")
+print("\nВведенная матрица")
 print_matrix(matrix)
-print("Определитель матрицы по определению:", calculate_det_by_definition(matrix, matrix_size))
+print("\nОпределитель матрицы по определению:", calculate_det_by_definition(matrix, matrix_size), "\n")
 calculate_matrix(matrix, matrix_size)
