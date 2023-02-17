@@ -74,7 +74,7 @@ def get_matrix_values(size):
                 table = []
                 for row in range(size):
                     while True:
-                        print("Введите элементы ", row + 1, " строки через пробел:")
+                        print("Введите элементы ", row + 1, " строки через пробел (включая свободныый член):")
                         try:
                             elements_string = input().split()
                             if len(elements_string) != size + 1:
