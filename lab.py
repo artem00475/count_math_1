@@ -96,12 +96,14 @@ def matrix_to_triangle(table, size):
     for column in range(size - 1):
         max_el = 0
         max_row = column
+        print("Выбор главного элемента по", column + 1, "столбцу")
         for row in range(column, size):
             if abs(table[row][column]) > max_el:
                 max_el = abs(table[row][column])
                 max_row = row
         if max_row != column:
             k += 1
+            print("Меняем местами", max_row+1, "строчку с", column+1, "строкой")
             table1 = table[max_row]
             table[max_row] = table[column]
             table[column] = table1
@@ -111,7 +113,7 @@ def matrix_to_triangle(table, size):
                 table1 = [y * x for y in table[column]]
                 for i in range(column, size + 1):
                     table[row][i] = round(table1[i] + table[row][i], 5)
-        print("Выбор главного элемента по", column + 1, "столбцу")
+
         print_matrix(table)
         print()
     return table, k
@@ -124,7 +126,7 @@ def calculate_hitch(table, size, x_table):
         sum_el = 0
         for el_index in range(size):
             sum_el += x_table[el_index] * table[row][el_index]
-        r_table.append(round(sum_el - table[row][-1], 5))
+        r_table.append(round(sum_el - table[row][-1], 20))
         if abs(r_table[row]) == 0:
             r_table[row] = abs(r_table[row])
     print("Вектор неувязок:", r_table)
@@ -150,7 +152,7 @@ def calculate_matrix(table, size):
         sum = table[row][-1]
         for i in range(row + 1, size):
             sum -= table[row][i] * x_table[i]
-        x_table[row] = round(sum / table[row][row], 5)
+        x_table[row] = round(sum / table[row][row], 15)
         if abs(x_table[row]) == 0:
             x_table[row] = abs(x_table[row])
     print("Вектор неизвестных:", x_table)
