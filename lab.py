@@ -4,6 +4,7 @@ def get_matrix_size():
 
     while True:
         input_type = input()
+        #Ввод из файла
         if input_type == "f":
             print("В файле должно быть целое число от 1 до 20.")
             while True:
@@ -22,6 +23,7 @@ def get_matrix_size():
                 except ValueError:
                     print("Некорректное значение. Повторите ввод.")
                     continue
+        #Ввод с клавиатуры
         elif input_type == "k":
             while True:
                 print("Введите целое число от 1 до 20:")
@@ -45,6 +47,7 @@ def get_matrix_values(size):
 
     while True:
         input_type = input()
+        #Ввод из файла
         if input_type == "f":
             print(
                 "Данные в файле должны быть в формате каждая строка матрицы в отдельной строке файла, элементы в строке разделяются пробелами.")
@@ -69,6 +72,7 @@ def get_matrix_values(size):
                     continue
                 except ArithmeticError:
                     continue
+        #Ввод с клавиатуры
         elif input_type == "k":
             while True:
                 table = []
@@ -93,20 +97,24 @@ def get_matrix_values(size):
 # Приведение матрицы к треугольному виду с выбором главного элемента по столбцу
 def matrix_to_triangle(table, size):
     k = 0
+    #Итерация по столбцам
     for column in range(size - 1):
         max_el = 0
         max_row = column
         print("Выбор главного элемента по", column + 1, "столбцу")
+        #Выбор макимального элемента в столбце
         for row in range(column, size):
             if abs(table[row][column]) > max_el:
                 max_el = abs(table[row][column])
                 max_row = row
+        #Перестановка, если необходима
         if max_row != column:
             k += 1
             print("Меняем местами", max_row+1, "строчку с", column+1, "строкой")
             table1 = table[max_row]
             table[max_row] = table[column]
             table[column] = table1
+        #Приведение остальных элементов столбца к нулю
         for row in range(column + 1, size):
             if table[row][column] != 0:
                 x = -(table[row][column] / table[column][column])
@@ -132,6 +140,7 @@ def calculate_hitch(table, size, x_table):
     print("Вектор неувязок:", r_table)
 
 
+#Вычисления определителя для треугольной матрицы
 def calculate_det(table, size, k):
     det = (-1)**k
     for i in range(size):
@@ -146,8 +155,9 @@ def calculate_matrix(table, size):
     print("Треугольная матрица")
     print_matrix(table)
     print()
+    #Вектор неизвестных
     x_table = [0 for i in range(size)]
-
+    #Обратный ход метода Гаусса
     for row in range(size - 1, -1, -1):
         sum = table[row][-1]
         for i in range(row + 1, size):
