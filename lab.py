@@ -165,8 +165,12 @@ def calculate_matrix(table, size):
         x_table[row] = round(sum / table[row][row], 15)
         if abs(x_table[row]) == 0:
             x_table[row] = abs(x_table[row])
-    print("Вектор неизвестных:", x_table)
+    print("Вектор неизвестных:", end=' ')
+    for x in x_table:
+        print('%.4f' % x, end=' ')
+    print()
     calculate_hitch(table1, size, x_table)
+    print("Число перестановок:", replace_count)
 
 
 # Вывод матрицы в консоль
